@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="lt-ie11 lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en"><![endif]-->
+<!--[if IE 7]><html class="lt-ie11 lt-ie10 lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if IE 8]><html class="lt-ie11 lt-ie10 lt-ie9 lang="en"><![endif]-->
+<!--[if IE 9]><html class="lt-ie11 lt-ie10" lang="en"><![endif]-->
+<!--[if IE 10]><html class="lt-ie11" lang="en"><![endif]-->
+<!--[if gt IE 11]><!-->
+<html class="login" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>Hotseat - View Topic</title>
+    <link type="image/x-icon" href="/images/favicon.png" rel="shortcut icon" />
+
+    <link href="/css/vendor/pure-min-0.4.2.css" rel="stylesheet" />
+
+    <!--[if lte IE 8]>
+		<link href="/css/vendor/pure-grids-responsive-old-ie-min-0.5.0.css" rel="stylesheet"/>
+
+	<![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link href="/css/vendor/pure-grids-responsive-min-0.5.0.css" rel="stylesheet" />
+
+    <!--<![endif]-->
+
+    <link href="/css/normalize.css" rel="stylesheet" />
+
+    <link href="/css/main.css" rel="stylesheet" />
+
+    <!-- Application Insights. Needs to go immediately before closing head tag and before other scripts -->
+    <script type="text/javascript">
+        var appInsights = window.appInsights ||
+            function (config) {
+                function s(config) {
+                    t[config] = function () {
+                        var i = arguments;
+                        t.queue.push(function () { t[config].apply(t, i) })
+                    }
+                }
+
+                var t = { config: config }, r = document, f = window, e = "script", o = r.createElement(e), i, u;
+                for (o.src = config.url || "//az416426.vo.msecnd.net/scripts/a/ai.0.js", r.getElementsByTagName(e)[0].parentNode
+                    .appendChild(o), t.cookie = r.cookie, t.queue = [], i = ["Event", "Exception", "Metric", "PageView", "Trace"];
+                    i.length;
+                ) s("track" + i.pop());
+                return config.disableExceptionTracking ||
+                    (i = "onerror", s("_" + i), u = f[i], f[i] = function (config, r, f, e, o) {
+                        var s = u && u(config, r, f, e, o);
+                        return s !== !0 && t["_" + i](config, r, f, e, o), s
+                    }), t
+            }({
+                instrumentationKey: "0bc17e11-3f38-4e38-842c-35b9d61e49fb"
+            });
+
+        window.appInsights = appInsights;
+        appInsights.trackPageView();
+    </script>
+    <script type="text/javascript" src="/js/vendor/modernizr-2.6.2.min.js"> </script>
+
+    <link href="/css/hotseat-responsive?v=6Blh0dUa5-nbg-L2tBuME76BdWD252Rq8gUA0yygz-o1" rel="stylesheet" />
+
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'
+        rel='stylesheet' type='text/css'>
+
+    <link href="/css/hotseatprint?v=Gp1ndxZPgNiEvEvJqtW6Jb3uCyDRD1ebNEPCoojur641" rel="stylesheet" type="text/css"
+        media="print" />
+
+
+</head>
+
+<body>
+
+
+    <div id="bg-treatment"></div>
+    <nav id="wrapper-all">
+        <div id="wrapper-header" class="pure-g clearfix">
+            <div id="header" class="pure-u-1">
+                <div class="wrapper">
+                    <a class="hotseat" href="/">Hotseat</a>
+                    <nav class="clearfix">
+
+                        <ul>
+                            <li class="admin-li">
+                                <label for="show-menu" class="show-menu hover">Admin Options</label>
+                                <input type="checkbox" id="show-menu" role="button">
+                                <ul id="adminMenu" class="navexpand">
+                                    <li>
+                                        <a href="/Admin/ManagePolls">Manage Polls</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/ManageTopics">Manage Topics</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/ManageSpaces">Manage Spaces</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/Admin/Reports">Reports</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/ManageAdmins">Manage Admins</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/ManageThoughtRelevancy">Thought Relevancy</a>
+                                    </li>
+                                    <li>
+                                        <a href="/TrialRequest/Manage">Manage Trial Requests</a>
+                                    </li>
+                                    <li>
+                                        <a href="/Admin/SetLoggingLevel">Logging</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="user-li">
+                                <label for="user-menu" class="show-menu hover">Jason K</label>
+                                <input type="checkbox" id="user-menu" role="button">
+                                <ul id="userMenu" class="navexpand">
+                                    <li><a href="/Topic/Thoughts">My Thoughts</a></li>
+                                    <li><a href="/Topic/Favorites">My Favorites</a></li>
+                                    <li><a href="/User/EditProfile">Edit My Profile</a></li>
+                                    <li><a href="/Home/GettingStarted">Getting Started</a></li>
+                                    <li>
+                                        <a class="icon-logout pad logout" href="/Login/Logout">Log Out</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <input type='checkbox' id='toggle' />
+
+                        <label for='toggle' class='toggle'><span class="screenreader-only">toggle</span></label>
+
+                        <ul class="mobile-menu">
+                            <li><a href="/">Hotseat Home</a></li>
+                            <li><a href="/Topic/Thoughts">My Thoughts</a></li>
+                            <li><a href="/Topic/Favorites">My Favorites</a></li>
+
+                            <li><a href="/User/EditProfile">Edit My Profile</a></li>
+
+                            <li><a class="icon-cog pad breakoutMenuOpt" href="/Admin/Options">Admin Options</a></li>
+                            <li>
+                                <a class="icon-logout pad logout" href="/Login/Logout">Log Out</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div id="subnav-wrapper" class="pure-g">
+        <nav class="pure-u-1 clearfix">
+            <a href="/Space/Index/3072" class="icon-list pad back-btn" title="back to space">
+                Sandbox Space for...
+            </a>
+
+        </nav>
+        <div class="clear"></div>
+    </div>
+
+    <div class="pure-u-1 poll-alert-parent" style="display:none;">
+        <a href="/Topic/Poll/20688">
+            <div class="poll-alert">
+                <span class="icon-warning"></span>
+                <h2>Poll in Progress!</h2>
+            </div>
+        </a>
+    </div>
+
+    <div id="wrapper-messages">
+
+    </div>
+
+    <div id="content" class="clearfix" role="main">
+        <div class="wrapper pure-g-r">
+
+
+
+            <div id="topic" class="pure-u-1-3">
+                <div class="col-header">
+                    <h2>Topic</h2>
+                    <nav class="drop-sauce">
+                        <ul>
+                            <li>
+                                <span class="icon-cog parent"></span>
+                                <ul>
+                                    <li><a class="icon-pencil pad" href="/Admin/AddEditTopic/20688">Edit Topic</a></li>
+                                    <li><a class="icon-statistics pad" href="/Admin/AddEditPoll/0?topicid=20688">Edit
+                                            Polls</a></li>
+                                    <li><a class="icon-user pad" href="/Admin/ToggleAnonymous">Turn Anonymous Off</a></li>
+                                    <li><a class="icon-eye-blocked pad" href="/Topic/ViewHidden/20688">Hidden Thoughts</a></li>
+                                    <li><a class="icon-comment pad" href="/Admin/ToggleWordCloud?topicId=20688">Enable
+                                            Word Cloud</a></li>
+                                    <li class="break"></li>
+                                    <li class="small"><a class="icon-lock pad" href="/Topic/ToggleLocked/20688" id="lock-btn"
+                                            title="Lock Topic">Lock Topic</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a class="picView col-header-btn icon-image tipsy-n" id="picView-btn" title="Pic View" href="/Topic/Images/20688"><span
+                            class="screenreader-only">picture review</span></a>
+                </div>
+
+                <!-- .col-header -->
+                <div class="col-content">
+                    <a href="/Topic/ToggleFavorite/20688?showReplies=0" class="fav-topic icon-star fav-btn icon-btn tipsy-s "
+                        title="Favorite Topic">
+                        <span class="screenreader-only">toggle favorite</span>
+                    </a>
+
+                    <h2>
+                        <span class="icon-lock  tipsy-s" title="An instructor has locked this topic." style="display:none;"></span>
+                        Getting Started with Topics
+                    </h2>
+                    <h3 class="overflow">This is a question prompt to your participants: How can I use the discussion
+                        feed in my course?</h3>
+
+                    <form action="/Topic/SubmitThought" class="" enctype="multipart/form-data" id="SubmitThought"
+                        method="post"><input name="__RequestVerificationToken" type="hidden" value="F773wwS3BTNo03gZLGXXnylsNOPkKYCCBzsN0OiSfmytbKe1MGbt5EkW80FCFM-y-4X0dsoaJuOjhCh0_Dvd-3Malpn27757XFjosKbQ5GwbX8dpz2HVrSW_I7t6sa2_BuISjKamhR1Y_O1SRLZ9rQ2" /><input
+                            id="PostCreatedBy" name="PostCreatedBy" type="hidden" value="13127" /><input id="PostTopicID"
+                            name="PostTopicID" type="hidden" value="20688" /><input data-val="true" data-val-number="The field TopicPostMaxLength must be a number."
+                            data-val-required="The TopicPostMaxLength field is required." id="TopicPostMaxLength" name="TopicPostMaxLength"
+                            type="hidden" value="300" />
+                        <div class="topicthought">
+                            <textarea name="PostDescription" id="PostDescription" placeholder="What do you think?" rows="2"
+                                cols="40" satyle="width:100%; margin-right:10px;" aria-label="input what do you think here."></textarea>
+                            <div class="clear"></div>
+                            <h6 class="charsleft" id="charsLeft">300</h6>
+                            <div id="button_block" style="margin:0 0 5px;" class="clearfix">
+                                <a href="#" class="col-content-btn icon-paperclip tipsy-s seek" style="margin:5px 5px 5px 0;"
+                                    title="Attach a Pic"><span class="screenreader-only">attach a picture</span></a>
+                                <label for="PostAnonymous" title="Post Anoymous">
+                                    <input type="checkbox" name="PostAnonymous" id="PostAnonymous" value="true" class="anonbox"
+                                        style="position:relative;" />Post as Anonymous
+                                </label>
+
+                                <div class="upload hide">
+                                    <div class="clear"></div>
+                                    <label for="topicUpload">Attach a Pic</label>
+                                    <input id="PostImageFileName" name="PostImageFileName" type="hidden" value="" />
+                                    <input type="file" name="topicUpload" id="topicUpload" />
+
+                                    <div id="preview">
+                                        <a href="#">
+                                            <img class="creator-delete" src="/images/delete.png" alt="Delete" />
+                                        </a>
+                                        <img id="thumb" style=display:none; alt="thought" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                            <div>
+                                <input id="btnSubmit" type="submit" value="Submit" class="topic-submit" />
+                            </div>
+                        </div>
+                    </form>
+                    <div class="clear"></div>
+                </div>
+
+                <div id="socialbox">
+                    <p class="text icon-mobile pad ">Text M20688 to (765) 560-4177</p>
+                </div>
+
+
+
+                <div id="search-full" class="clearfix pure-g" style="display:none;"></div>
+            </div>
+
+            <div id="thoughts" class="pure-u-2-3">
+                <div id="search" class="pure-g" style="display:none;"></div>
+
+                <form action="/Topic/View/20688" category="recent" class="submitReply" id="3072" method="post"><input
+                        name="__RequestVerificationToken" type="hidden" value="LeDz8-1VVTDUhQNXzl-CdcKJmZ_lEKvzXIExyJpLiL4QH-r9w_zb1uM1knj6eody6r9HQzdZm6Xzv6YXhyZ5i0P0Cl7TQUmgrUcKzWvsmIihK9UaC0DSEY76fH6wc8pNEmsZ89R3_gIdFIB1lF42Zg2" />
+                    <div id="feat-wrapper" style="">
+                        <div class="col-header feat-header">
+                            <p class="col-header-num" id="totalfeaturedthoughts">1</p>
+                            <h2>Featured Thoughts</h2>
+                        </div><!-- .col-header -->
+                        <div id="featured-questions" class="thought-container">
+
+
+
+
+                            <div class="question-replies" hs_replycount="0.636392629978370000" hs_votecount="0.636392629978370000"
+                                hs_postcreatedticks="636392629978370000">
+                                <div class="question" hs_postid="496266" hs_replycount="0">
+                                    <div class="q-content pure-u-1 clearfix">
+                                        <div class="q-vote clearfix">
+                                            <a href="/Post/Vote/496266" class="vote-btn " title="thought has 0 vote. click to vote for this."><span
+                                                    aria-hidden="true"> 0 </span></a>
+                                            <a href="/Post/ToggleFeatured/496266" class="feat-btn icon-btn icon-arrow-down3"
+                                                title="Toggle Featured" style="display:block;"><span class="screenreader-only">Toggle
+                                                    Featured</span></a>
+                                        </div>
+                                        <div class="q-text">
+                                            <h3 class="post-description">You can feature a thought with the up arrow
+                                                button under the vote button. This allows you to highlight a particular
+                                                thought from your learners.</h3>
+                                            <p class="author">
+                                                <strong>Hotseat Tutorial</strong> <a href="/Topic/ViewPost/496266">
+                                                    <span class="utctime">Fri Aug 25 2017</span>
+                                                </a> from Hotseat</p>
+                                        </div>
+                                        <div class="q-controls clearfix q-controls-admin">
+                                            <a href="/Post/ToggleFavorite/496266?showReplies=0" class="fav-post fav-btn icon-star icon-btn "
+                                                title="Toggle Favorite"> <span class="screenreader-only">Toggle
+                                                    Favorite</span> </a>
+                                            <a href="/Post/ToggleHidden/496266" class="hide-btn icon-blocked icon-btn"
+                                                title="Hide"> <span class="screenreader-only">Hide</span></a>
+                                        </div>
+
+                                        <a href="/Topic/View/20688?showReplies=496266&amp;category=recent" title="open 0 replies"
+                                            class="reply-btn reply-btn-show ">
+                                            <span class="reply-num" aria-hidden="true">Reply</span>
+                                        </a>
+
+                                        <p class="text-vote icon-mobile pad">text 'V496266' to (765) 560-4177 to vote
+                                            for this thought.</p>
+                                    </div>
+                                </div>
+
+                                <ul class="replies" style="display:none;"></ul>
+                            </div>
+
+                        </div><!-- #featured-questions -->
+                    </div>
+                    <!-- #featured-wrapper -->
+                    <div class="col-header">
+                        <p class="col-header-num" id="totalthoughts">4</p>
+                        <h2>Submitted Thoughts</h2>
+                        <a class="col-header-btn" href="/Topic/View/20688" id="refreshThoughts">Refresh Page</a>
+                    </div>
+                    <!-- .col-header -->
+                    <ul id="thought-tabs" class="pure-g">
+                        <li id="tabrecent" class="current  pure-u-1-3">
+                            <a href="/Topic/View/20688?category=recent&amp;showReplies=0" title="Fresh Thoughts">
+                                Fresh Thoughts<br />
+                                <span class="subtitle">(Sort By New)</span>
+                            </a>
+                        </li>
+                        <li id="tabvoted" class=" pure-u-1-3">
+                            <a href="/Topic/View/20688?category=votes&amp;showReplies=0" title="Hot Thoughts">
+                                Hot Thoughts<br />
+                                <span class="subtitle">(Sort By Votes)</span>
+                            </a>
+                        </li>
+                        <li id="tabreplies" class=" pure-u-1-3">
+                            <a href="/Topic/View/20688?category=replies&amp;showReplies=0" title="Deep Thoughts">
+                                Deep Thoughts<br />
+                                <span class="subtitle">(Sort By Replies)</span>
+                            </a>
+                    </ul>
+                    <div class="clear"></div>
+                    <div id="thoughtloader" class="question" style="text-align:center; display:none;">
+                        <div class="q-content">
+                            <img src="/images/loader-32-orange-white.gif" alt="Loading..." style="padding:15px;" />
+                            <h2>Thinking about thoughts...</h2>
+                        </div>
+                    </div>
+                    <div id="questions" class="thought-container">
+
+
+
+
+                        <div class="question-replies" hs_replycount="0.636392629978370000" hs_votecount="0.636392629978370000"
+                            hs_postcreatedticks="636392629978370000">
+                            <div class="question" hs_postid="496267" hs_replycount="0">
+                                <div class="q-content pure-u-1 clearfix">
+                                    <div class="q-vote clearfix">
+                                        <a href="/Post/Vote/496267" class="vote-btn " title="thought has 0 vote. click to vote for this."><span
+                                                aria-hidden="true"> 0 </span></a>
+                                        <a href="/Post/ToggleFeatured/496267" class="feat-btn icon-btn icon-arrow-up3"
+                                            title="Toggle Featured" style="display:block;"><span class="screenreader-only">Toggle
+                                                Featured</span></a>
+                                    </div>
+                                    <div class="q-text">
+                                        <h3 class="post-description">Using a topic to pose a question to the learners
+                                            for discussion can allow you to assess learner understanding before the
+                                            lecture presentation.</h3>
+                                        <p class="author">
+                                            <strong>Hotseat Tutorial</strong> <a href="/Topic/ViewPost/496267">
+                                                <span class="utctime">Fri Aug 25 2017</span>
+                                            </a> from Hotseat</p>
+                                    </div>
+                                    <div class="q-controls clearfix q-controls-admin">
+                                        <a href="/Post/ToggleFavorite/496267?showReplies=0" class="fav-post fav-btn icon-star icon-btn "
+                                            title="Toggle Favorite"> <span class="screenreader-only">Toggle Favorite</span>
+                                        </a>
+                                        <a href="/Post/ToggleHidden/496267" class="hide-btn icon-blocked icon-btn"
+                                            title="Hide"> <span class="screenreader-only">Hide</span></a>
+                                    </div>
+
+                                    <a href="/Topic/View/20688?showReplies=496267&amp;category=recent" title="open 0 replies"
+                                        class="reply-btn reply-btn-show ">
+                                        <span class="reply-num" aria-hidden="true">Reply</span>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="replies" style="display:none;"></ul>
+                        </div>
+                        <div class="question-replies" hs_replycount="1.636392629978370000" hs_votecount="0.636392629978370000"
+                            hs_postcreatedticks="636392629978370000">
+                            <div class="question" hs_postid="496268" hs_replycount="1">
+                                <div class="q-content pure-u-1 clearfix">
+                                    <div class="q-vote clearfix">
+                                        <a href="/Post/Vote/496268" class="vote-btn " title="thought has 0 vote. click to vote for this."><span
+                                                aria-hidden="true"> 0 </span></a>
+                                        <a href="/Post/ToggleFeatured/496268" class="feat-btn icon-btn icon-arrow-up3"
+                                            title="Toggle Featured" style="display:block;"><span class="screenreader-only">Toggle
+                                                Featured</span></a>
+                                    </div>
+                                    <div class="q-text">
+                                        <h3 class="post-description">Learners can have a backchannel discussion about
+                                            the material on their own and can reply to each other.</h3>
+                                        <p class="author">
+                                            <strong>Hotseat Tutorial</strong> <a href="/Topic/ViewPost/496268">
+                                                <span class="utctime">Fri Aug 25 2017</span>
+                                            </a> from Hotseat</p>
+                                    </div>
+                                    <div class="q-controls clearfix q-controls-admin">
+                                        <a href="/Post/ToggleFavorite/496268?showReplies=0" class="fav-post fav-btn icon-star icon-btn "
+                                            title="Toggle Favorite"> <span class="screenreader-only">Toggle Favorite</span>
+                                        </a>
+                                        <a href="/Post/ToggleHidden/496268" class="hide-btn icon-blocked icon-btn"
+                                            title="Hide"> <span class="screenreader-only">Hide</span></a>
+                                    </div>
+
+                                    <a href="/Topic/View/20688?showReplies=496268&amp;category=recent" title="open 1 replies"
+                                        class="reply-btn reply-btn-show has-replies">
+                                        <span class="reply-num" aria-hidden="true">1</span>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="replies" style="display:none;"></ul>
+                        </div>
+                        <div class="question-replies" hs_replycount="0.636392629978370000" hs_votecount="0.636392629978370000"
+                            hs_postcreatedticks="636392629978370000">
+                            <div class="question" hs_postid="496269" hs_replycount="0">
+                                <div class="q-content pure-u-1 clearfix">
+                                    <div class="q-vote clearfix">
+                                        <a href="/Post/Vote/496269" class="vote-btn " title="thought has 0 vote. click to vote for this."><span
+                                                aria-hidden="true"> 0 </span></a>
+                                        <a href="/Post/ToggleFeatured/496269" class="feat-btn icon-btn icon-arrow-up3"
+                                            title="Toggle Featured" style="display:block;"><span class="screenreader-only">Toggle
+                                                Featured</span></a>
+                                    </div>
+                                    <div class="q-text">
+                                        <h3 class="post-description">Learners can react throughout your presentation.
+                                            This can allow you or a proctor to monitor for pain points where learners
+                                            have several questions or difficulty understanding the material.</h3>
+                                        <p class="author">
+                                            <strong>Hotseat Tutorial</strong> <a href="/Topic/ViewPost/496269">
+                                                <span class="utctime">Fri Aug 25 2017</span>
+                                            </a> from Hotseat</p>
+                                    </div>
+                                    <div class="q-controls clearfix q-controls-admin">
+                                        <a href="/Post/ToggleFavorite/496269?showReplies=0" class="fav-post fav-btn icon-star icon-btn "
+                                            title="Toggle Favorite"> <span class="screenreader-only">Toggle Favorite</span>
+                                        </a>
+                                        <a href="/Post/ToggleHidden/496269" class="hide-btn icon-blocked icon-btn"
+                                            title="Hide"> <span class="screenreader-only">Hide</span></a>
+                                    </div>
+
+                                    <a href="/Topic/View/20688?showReplies=496269&amp;category=recent" title="open 0 replies"
+                                        class="reply-btn reply-btn-show ">
+                                        <span class="reply-num" aria-hidden="true">Reply</span>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="replies" style="display:none;"></ul>
+                        </div>
+                        <div class="question-replies" hs_replycount="0.636392629978370000" hs_votecount="0.636392629978370000"
+                            hs_postcreatedticks="636392629978370000">
+                            <div class="question" hs_postid="496270" hs_replycount="0">
+                                <div class="q-content pure-u-1 clearfix">
+                                    <div class="q-vote clearfix">
+                                        <a href="/Post/Vote/496270" class="vote-btn " title="thought has 0 vote. click to vote for this."><span
+                                                aria-hidden="true"> 0 </span></a>
+                                        <a href="/Post/ToggleFeatured/496270" class="feat-btn icon-btn icon-arrow-up3"
+                                            title="Toggle Featured" style="display:block;"><span class="screenreader-only">Toggle
+                                                Featured</span></a>
+                                    </div>
+                                    <div class="q-text">
+                                        <h3 class="post-description">Learners who may be uncomfortable with the topic
+                                            can choose to post anonymously, giving a voice to the voiceless. An
+                                            instructor will always be able to know the identify of the anonymous poster
+                                            through reports or by turning off their anonymous view in their own web
+                                            browser by using the gear icon.</h3>
+                                        <p class="author">
+                                            <strong>Anonymous</strong> <a href="/Topic/ViewPost/496270">
+                                                <span class="utctime">Fri Aug 25 2017</span>
+                                            </a> from Hotseat</p>
+                                    </div>
+                                    <div class="q-controls clearfix q-controls-admin">
+                                        <a href="/Post/ToggleFavorite/496270?showReplies=0" class="fav-post fav-btn icon-star icon-btn "
+                                            title="Toggle Favorite"> <span class="screenreader-only">Toggle Favorite</span>
+                                        </a>
+                                        <a href="/Post/ToggleHidden/496270" class="hide-btn icon-blocked icon-btn"
+                                            title="Hide"> <span class="screenreader-only">Hide</span></a>
+                                    </div>
+
+                                    <a href="/Topic/View/20688?showReplies=496270&amp;category=recent" title="open 0 replies"
+                                        class="reply-btn reply-btn-show ">
+                                        <span class="reply-num" aria-hidden="true">Reply</span>
+                                    </a>
+
+                                </div>
+                            </div>
+
+                            <ul class="replies" style="display:none;"></ul>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div id="wrapper-footer">
+        <div id="footer">
+            <div class="wrapper">
+                <p>
+                    <a href="http://www.purdue.edu" class="purdue_footer" title="Purdue University" target="_blank">Purdue</a>
+                    <a href="http://www.purdue.edu/purdue/disclaimer.html">&copy; 2018 Purdue University</a> | <a href="http://www.purdue.edu/purdue/ea_eou_statement.html">An
+                        equal access/equal opportunity university</a> | Version 4.17.15 - Chlorine
+                    <br />Need help or have trouble accessing this page? <a href="mailto:tlt@purdue.edu">Contact us</a>.
+                    <span><br />View our <a href="/Home/GettingStarted">getting started guide</a>.</span>
+                    <br /><a href="/Home/PrivacyPolicy">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script> window.jQuery || document.write('<script src="/js/vendor/jquery-1.11.1.min.js"><\/script>') </script>
+
+    <script>
+
+        // Globals
+        var SiteRoot = "/";
+        var baseURL = "https://www.openhotseat.org/";
+        var logErrorURL = "/Error";
+        var pingURL = "/Home/Ping";
+        var imageStorageBase = "https://hotseatstorage.blob.core.windows.net/image";
+        var shouldAllowLogging =
+            false;
+
+        // Hotseat
+        // Add as a window global, so our browserified scripts can access it.
+        var Hotseat = (typeof window !== 'undefined') ? window.Hotseat || {} : {};
+
+        // Configuration
+        var Configuration = (typeof Hotseat.Configuration !== 'undefined') ? Hotseat.Configuration || {} : {};
+        Configuration.caliperEnabled = Boolean("True".toLowerCase() === 'true');
+        Configuration.caliperEventStoreHostname = String("purdue.api.learningscope.org");
+        Configuration.caliperPersonNamespace = String("https://purdue.edu/user/");
+        Configuration.baseURL = baseURL;
+        Configuration.TIER = String("PROD");
+        Configuration.version = String("4.17.15");
+        Hotseat.Configuration = Configuration;
+
+        // SessionUser
+
+        var SessionUser = (typeof Hotseat.SessionUser !== 'undefined') ? Hotseat.SessionUser || {} : {};
+        SessionUser.userID = Number(13127);
+        SessionUser.personID = Number(25);
+        SessionUser.identifier = String("0010272052");
+        SessionUser.firstName = String("Jason K");
+        SessionUser.lastName = String("Dufair");
+        SessionUser.email = String("jase@purdue.edu");
+        Hotseat.SessionUser = SessionUser;
+
+
+        if (typeof window !== 'undefined') {
+            window.Hotseat = Hotseat;
+        }
+
+        // jQuery
+        $(function () {
+            // Check to see if there are any messages
+            // Surround with try/catch to elimate old browsers from sending error(IE6, IE7).
+            try {
+                var sessionMessagesKey = 'Hotseat' + ':Hotseat_Messages';
+                var sessionMessages = sessionStorage.getItem(sessionMessagesKey);
+                if (sessionMessages != undefined) {
+                    sessionStorage.removeItem(sessionMessagesKey);
+                    $("#wrapper-messages").prepend(sessionMessages);
+                }
+            } catch (ex) {
+            }
+        });
+    </script>
+    <script src="/js/hotseat.module.js"></script>
+    <script src="/js/hotseat?v=hogTTS6NW9hm2E26YMMYJGyOvOhQLF996fDsNIgv7K81"></script>
+
+
+    <script src="/js/vendor/json2.js"></script>
+    <script src="/js/vendor/jquery.tinysort.min.js"> </script>
+    <script src="/js/vendor/ajaxupload.js"> </script>
+    <script src="/js/vendor/jquery.jqote2.js"> </script>
+
+
+
+    <script>
+        // --------------------------------------------------------------------------
+        // GLOBALS
+        // hotseat.topic.shared.js
+        // hotseat.topic.feed.js
+        // hotseat.topic.poll.js
+        // --------------------------------------------------------------------------
+        var currentUserID = Number(13127);
+        var currentUserShowingAnonymous = Boolean("False".toLowerCase() === 'true');
+        var currentUserSuperAdmin = Boolean("True".toLowerCase() === 'true');
+        var currentUserSpaceAdmin = Boolean("True".toLowerCase() ===
+            'true');
+        var currentCategory = String("recent");
+        var relevancyEnabled = String("False".toLowerCase() === 'true');
+        var showRepliesID = Number(0);
+        var topicID = Number(20688);
+        var topicRefreshTime = Number(30);
+        var topicLocked = Boolean("False".toLowerCase() === 'true');
+        var topicArchived = Boolean("False".toLowerCase() === 'true');
+        var topicPrivate = Boolean("True".toLowerCase() ===
+            'true');
+        var topicPostMaxLength = Number(300);
+        var displayPhone = String("(765) 560-4177");
+        var clientStateId = String("7d932cc3-5dcb-4775-a2f5-6744bb098a74");
+
+        var isPollFullscreen = false;
+
+        // SignalR Groups: Topic, Topic User, Feed
+        var groupNames = Array(
+            String("topic-" + topicID),
+            String("topic-" + topicID + "-user-" + currentUserID),
+            String("topic-" + topicID + "-feed"));
+
+        // Word cloud
+        var shouldBuildWordCloud = 'True' === 'False';
+        function buildWordCloud(doNotFade) {
+            if (shouldBuildWordCloud) {
+                $('#word-cloud-container').fadeTo(300, doNotFade ? 1 : 0.01,
+                    function () {
+                        $('#word-cloud-container > svg').remove();
+                        var words = $('.q-text h3').map(function () { return $(this).text() }).get()
+                            .reduce(function (prev, current) {
+                                return prev.concat(current.split(" "));
+                            }, []);
+                        var size = $('#word-cloud').width();
+                        WordCloud.layOutWordCloud(words, size);
+                        $('#word-cloud-container').fadeTo(500, 1);
+                    });
+            }
+        }
+        buildWordCloud();
+
+        // Rebuild the word cloud at a maximum frequency of 2/second
+        // when dom mutates (i.e. new posts arrive)
+        var targetNode = document.getElementById('questions');
+        var config = { childList: true };
+        var wordCloudBuilderTimeout;
+        var buildWordCloudDamped = function () {
+            clearTimeout(wordCloudBuilderTimeout);
+            wordCloudBuilderTimeout = setTimeout(function () { buildWordCloud() }, 2000);
+        }
+        var callback = function (mutationsList) {
+            for (var i = 0; i < mutationsList.length; i++) {
+                if (mutationsList[i].type === 'childList') {
+                    buildWordCloudDamped();
+                }
+            }
+        };
+        var observer = new MutationObserver(callback);
+        observer.observe(targetNode, config);
+
+        $('#word-cloud-toggle').click(function () {
+            if ($('#word-cloud-toggle').hasClass('collapsed')) {
+                // Expand
+                // Fade to almost transparent. Cannot just hide as
+                // word cloud engine won't render at all then
+                $('#word-cloud-module').fadeTo(200,
+                    0.01,
+                    function () {
+                        // Swap out expand/contract icon
+                        $('#word-cloud-toggle')
+                            .removeClass('collapsed')
+                            .removeClass('icon-expand')
+                            .addClass('expanded')
+                            .addClass('icon-contract');
+
+                        // Hide the module so it can be slideToggled in
+                        $('#word-cloud-module').hide();
+
+                        // Move the module to the right-hand column
+                        // and resize the container to fit.
+                        var newSize = $('#thoughts').width();
+                        $('#word-cloud-container').width(newSize);
+                        $('#word-cloud-container').height(newSize);
+                        $('#word-cloud-module').prependTo('#thoughts');
+
+                        // layout algo a bit slow, hence the #diyeasingfunction
+                        setTimeout(function () {
+                            // Slide the thoughts down and fade the word cloud in
+                            // Then rebuild it at the now-larger size
+                            $('#word-cloud-module').slideToggle(400);
+                            $('#word-cloud-module').fadeTo(400, 1);
+                            buildWordCloud(true);
+                        }, 300);
+                    });
+            } else {
+                // Collapse
+                // Fade to almost transparent. Cannot just hide as
+                // word cloud engine won't render at all then
+                $('#word-cloud-module').fadeTo(100,
+                    0.01,
+                    function () {
+                        // Swap out expand/contract icon
+                        $('#word-cloud-toggle')
+                            .removeClass('expanded')
+                            .removeClass('icon-contract')
+                            .addClass('collapsed')
+                            .addClass('icon-expand');
+
+                        // Slide the thoughts back up
+                        $('#word-cloud-module').slideToggle(300, function () {
+                            // Then move the module to the left-hand column
+                            // and resize the container to fit
+                            $('#word-cloud-module').appendTo('#socialbox');
+                            var newSize = $('#topic').width();
+                            $('#word-cloud-container').width(newSize);
+                            $('#word-cloud-container').height(newSize);
+
+                            // layout algo a bit slow, hence the #diyeasingfunction
+                            setTimeout(function () {
+                                // Slide anything below the word cloud down and fade it in
+                                // Then rebuild it at the now-smaller size
+                                $('#word-cloud-module').slideToggle(300);
+                                $('#word-cloud-module').fadeTo(300, 1);
+                                buildWordCloud(true);
+                            }, 10);
+                        });
+                    });
+            }
+        });
+    </script>
+
+    <script type="text/x-jqote-template" id="question_template">
+		<![CDATA[
+		<div class="question" hs_postid="<%= this.PostID %>" hs_relevancyscore="<%= this.RelevancyScore %>">
+			<div class="q-content pure-u-1 clearfix">
+				<div class="q-vote clearfix">
+					<a href="<%= this.VoteUrl %>" title=" vote for this" class="vote-btn <%= this.DisplayVoteStatus %>"> <span aria-hidden="true"><%= this.VoteCount %> </span></a>
+					<a href="<%= this.ToggleFeaturedUrl %>" class="feat-btn icon-btn icon-arrow-up3" title="Toggle Featured"><span class="screenreader-only">Toggle Featured</span></a>
+				</div>
+				<div class="q-text">
+					<h3 class="post-description"><%= this.PostDescription.replace("&nbsp;", " ") %></h3>
+					<% if (this.PostImageUrl && this.PostImageUrl != "") { %>
+					<div class="q-pic">
+						<a class="image-popup-vertical-fit" href="https://hotseatstorage.blob.core.windows.net/image/<%= this.PostImageUrl  %>.jpg" rel="gallery" title="<%= this.PostDescription %>"><img src="https://hotseatstorage.blob.core.windows.net/image/<%= this.PostImageUrl  %>-sq.jpg" alt="thought image" style="max-width:300px;" class="bordered" /></a>
+					</div>
+					<% } %>
+					<p class="author"><strong><%= this.DisplayEmail %></strong> <a class="datetime" href="<%= this.ViewPostUrl %>"><span class="utctime"><%= this.DisplayElapsedTime %></span></a> from <%= this.DisplaySource %></p>
+					<% if (currentUserSuperAdmin) { %>
+					<p class="relevancy-score"><%= (this.RelevancyScore != null ? this.RelevancyScore : "Not Scored") %></p>
+					<% } %>
+				</div>
+				<div class="q-controls clearfix <%= this.DisplayAdminControlsClass %>">
+					<a href="<%= this.ToggleFavoriteUrl %>" class="fav-post fav-btn icon-star icon-btn <%= this.DisplayFavoriteStatusClass %>" title="Toggle Favorite"><span class="screenreader-only">Toggle Favorite</span> </a>
+					<a href="<%= this.ToggleHiddenUrl %>" class="hide-btn icon-blocked icon-btn" title="Hide"><span class="screenreader-only">Hide</span></a>
+				</div>
+				<a href="<%= this.ShowRepliesUrl %>" class="reply-btn reply-btn-show <%= this.DisplayHasRepliesClass %>" title="open replies"><span class="reply-num" aria-hidden="true"><%= this.DisplayReplyCount %></span> </a>
+			</div>
+		</div>
+		<ul class="replies" style="display:none;"></ul>
+		]]>
+	</script>
+    <script src="/js/topicview?v=w2HGLiBndLEax-b6En5KIc-ichyWTvydKprcw-DYjvQ1"></script>
+
+    <script src="/signalr/hubs"></script>
+
+    <script>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-10378405-2']);
+        _gaq.push(['_trackPageview']);
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+
+
+    <!--
+	Hotseat
+	--------------------------------------------------------
+	Version: 4.17.15
+	Release: Chlorine
+	Deploy Date: 11/12/2018 5:27 PM
+	Instance: Hotseat_IN_3
+	Environment: Production
+	-->
+
+</body>
+
+</html>
