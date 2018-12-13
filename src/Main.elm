@@ -62,7 +62,7 @@ init =
       , zone = utc
       , postsShowingReplies = []
       }
-    , Cmd.batch [ replayPosts, Task.perform AdjustTimeZone Time.here ]
+    , Cmd.batch [ replayPosts, Task.perform RecieveTimeZone Time.here ]
     )
 
 
@@ -72,41 +72,44 @@ init =
 
 type Msg
     = NoOp
-    | AddPost Post
-    | PostInProgressChange String
-    | SubmitPost
-    | PostSubmitted (Result Http.Error String)
-    | PostsReplayed (Result Http.Error (List Post))
-    | AdjustTimeZone Time.Zone
-    | VoteForPost Post
+    -- Local
+    | ChangePostInProgress String
+    | RecieveTimeZone Time.Zone
     | ToggleReplies Post
+
+    -- Remote
+    | ReceivePost Post
+    | SubmitPost
+    | ReceivePostSubmissionResponse (Result Http.Error String)
+    | ReceivePostsReplayedResponse (Result Http.Error (List Post))
+    | VoteForPost Post
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        AddPost p ->
+        ReceivePost p ->
             ( { model | posts = p :: model.posts }, Cmd.none )
 
-        PostInProgressChange p ->
+        ChangePostInProgress p ->
             ( { model | postInProgress = p }, Cmd.none )
 
         SubmitPost ->
             ( { model | postInProgress = "" }, submitPost model.postInProgress )
 
-        PostSubmitted (Ok _) ->
+        ReceivePostSubmissionResponse (Ok _) ->
             ( model, Cmd.none )
 
-        PostSubmitted (Err _) ->
+        ReceivePostSubmissionResponse (Err _) ->
             ( model, Cmd.none )
 
-        PostsReplayed (Ok posts) ->
+        ReceivePostsReplayedResponse (Ok posts) ->
             ( { model | posts = List.append posts model.posts }, Cmd.none )
 
-        PostsReplayed (Err _) ->
+        ReceivePostsReplayedResponse (Err _) ->
             ( model, Cmd.none )
 
-        AdjustTimeZone newZone ->
+        RecieveTimeZone newZone ->
             ( { model | zone = newZone }, Cmd.none )
 
         VoteForPost post ->
@@ -130,13 +133,13 @@ update msg model =
 
 submitPost : String -> Cmd Msg
 submitPost postInProgress =
-    Http.send PostSubmitted <|
+    Http.send ReceivePostSubmissionResponse <|
         Http.post "https://elmseat.azurewebsites.net/api/messages" (postInProgress |> E.string |> Http.jsonBody) D.string
 
 
 replayPosts : Cmd Msg
 replayPosts =
-    Http.send PostsReplayed <|
+    Http.send ReceivePostsReplayedResponse <|
         Http.get "https://elmseat.azurewebsites.net/api/replayPosts" (D.list postDecoder)
 
 
@@ -179,7 +182,7 @@ decodePost p =
     in
     case result of
         Ok parsedPost ->
-            AddPost parsedPost
+            ReceivePost parsedPost
 
         Err foo ->
             NoOp
@@ -366,7 +369,7 @@ mainContent model =
                         , input [ id "PostTopicID", name "PostTopicID", type_ "hidden", value "20688" ]
                             []
                         , div [ class "topicthought" ]
-                            [ textarea [ attribute "aria-label" "input what do you think here.", attribute "cols" "40", id "PostDescription", name "PostDescription", placeholder "What do you think?", attribute "rows" "2", value model.postInProgress, onInput PostInProgressChange ]
+                            [ textarea [ attribute "aria-label" "input what do you think here.", attribute "cols" "40", id "PostDescription", name "PostDescription", placeholder "What do you think?", attribute "rows" "2", value model.postInProgress, onInput ChangePostInProgress ]
                                 []
                             , div [ class "clear" ]
                                 []
