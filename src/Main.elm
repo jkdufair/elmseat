@@ -21,6 +21,8 @@ port receivePost : (E.Value -> msg) -> Sub msg
 type alias Post =
     { message : String
     , timestamp : Int
+    , voteCount : Int
+    , isStarred : Bool
     }
 
 
@@ -33,7 +35,13 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { posts = [ { message = "Hello, world", timestamp = 0 } ]
+    ( { posts =
+            [ { message = "Hello, world"
+              , timestamp = 0
+              , voteCount = 0
+              , isStarred = False
+              }
+            ]
       , postInProgress = ""
       , zone = utc
       }
@@ -109,9 +117,11 @@ subscriptions model =
 
 postDecoder : D.Decoder Post
 postDecoder =
-    D.map2 Post
+    D.map4 Post
         (D.field "message" D.string)
         (D.field "_ts" D.int)
+        (D.field "voteCount" D.int)
+        (D.field "isStarred" D.bool)
 
 
 decodePost : E.Value -> Msg
@@ -314,7 +324,7 @@ mainContent model =
                             , div [ class "clear" ]
                                 []
                             , h6 [ class "charsleft", id "charsLeft" ]
-                                [ text (String.fromInt (300 - (String.length model.postInProgress))) ]
+                                [ text (String.fromInt (300 - String.length model.postInProgress)) ]
                             , div [ class "clearfix", id "button_block", attribute "style" "margin:0 0 5px;" ]
                                 [ a [ class "col-content-btn icon-paperclip tipsy-s seek", href "#", attribute "style" "margin:5px 5px 5px 0;", title "Attach a Pic" ]
                                     [ span [ class "screenreader-only" ]
@@ -460,7 +470,7 @@ postContent model post =
                 [ div [ class "q-vote clearfix" ]
                     [ a [ class "vote-btn ", href "#", title "thought has 0 vote. click to vote for this." ]
                         [ span [ attribute "aria-hidden" "true" ]
-                            [ text "0 " ]
+                            [ text <| String.fromInt post.voteCount ]
                         ]
                     , a [ class "feat-btn icon-btn icon-arrow-up3", href "#", attribute "style" "display:block;", title "Toggle Featured" ]
                         [ span [ class "screenreader-only" ]
@@ -472,16 +482,16 @@ postContent model post =
                         [ text post.message ]
                     , p [ class "author" ]
                         [ strong []
-                            [ text "Anonymous" ]
+                            [ text "Anonymous " ]
                         , a [ href "#" ]
                             [ span [ class "utctime" ]
                                 [ text <| formatDate post.timestamp model.zone ]
                             ]
-                        , text "from Hotseat"
+                        , text " from Hotseat"
                         ]
                     ]
                 , div [ class "q-controls clearfix q-controls-admin" ]
-                    [ a [ class "fav-post fav-btn icon-star icon-btn ", href "#", title "Toggle Favorite" ]
+                    [ a [ class ("fav-post fav-btn icon-star icon-btn " ++ if post.isStarred then "is-fav" else ""), href "#", title "Toggle Favorite" ]
                         [ span [ class "screenreader-only" ]
                             [ text "Toggle Favorite" ]
                         ]
