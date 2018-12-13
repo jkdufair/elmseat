@@ -14,15 +14,14 @@ import Time exposing (Month, Zone, millisToPosix, toDay, toHour, toMinute, toMon
 port receivePost : (E.Value -> msg) -> Sub msg
 
 
-port receiveAction : (E.Value -> msg) -> Sub msg
+port receiveEvent : (E.Value -> msg) -> Sub msg
 
 
 
 ---- MODEL ----
 
-
-type alias Action =
-    { actionType : String
+type alias Event =
+    { eventType : String
     , timestamp : Int
     }
 
@@ -115,7 +114,7 @@ update msg model =
             ( { model | posts = List.append posts model.posts }, Cmd.none )
 
         ReceivePostsReplayedResponse (Err _) ->
-            ( model, Cmd.none )
+            ( {model | posts = []}, Cmd.none )
 
         RecieveTimeZone newZone ->
             ( { model | zone = newZone }, Cmd.none )
@@ -138,11 +137,17 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+sendEvent : String -> E.Value -> (Result Http.Error String -> msg) -> Cmd msg
+sendEvent eventType data resp =
+    Http.send resp <|
+        Http.post "https://elmseat.azurewebsites.net/api/receiveEvent"
+        (Http.jsonBody <| E.object [ ( "type", E.string eventType ), ( "data", data ) ])
+        D.string
+
 
 submitPost : String -> Cmd Msg
 submitPost postInProgress =
-    Http.send ReceivePostSubmissionResponse <|
-        Http.post "https://elmseat.azurewebsites.net/api/messages" (postInProgress |> E.string |> Http.jsonBody) D.string
+    sendEvent "PostCreated" (E.object [ ( "message", E.string postInProgress ) ]) ReceivePostSubmissionResponse
 
 
 replayPosts : Cmd Msg
@@ -157,12 +162,12 @@ replayPosts =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    receiveAction dispatchAction
+    receiveEvent dispatchEvent
 
 
-actionDecoder : D.Decoder Action
-actionDecoder =
-    D.map2 Action
+eventDecoder : D.Decoder Event
+eventDecoder =
+    D.map2 Event
         (D.field "type" D.string)
         (D.field "_ts" D.int)
 
@@ -171,23 +176,23 @@ postCreatedDecoder : Int -> D.Decoder Post
 postCreatedDecoder timestamp =
     D.map5 Post
         (D.field "message" D.string)
-        (D.succeed 0) -- voteCount
-        (D.succeed False) -- isStarred
-        (D.succeed timestamp) -- timestamp
-        (D.succeed []) -- replies
+        (D.succeed 0)
+        (D.succeed False)
+        (D.succeed timestamp)
+        (D.succeed [])
 
 
-dispatchAction : E.Value -> Msg
-dispatchAction a =
+dispatchEvent : E.Value -> Msg
+dispatchEvent a =
     let
         result =
-            D.decodeValue actionDecoder a
+            D.decodeValue eventDecoder a
     in
     case result of
-        Ok parsedAction ->
-            case parsedAction.actionType of
+        Ok parsedEvent ->
+            case parsedEvent.eventType of
                 "PostCreated" ->
-                    decodePost a parsedAction.timestamp
+                    decodePost a parsedEvent.timestamp
 
                 _ ->
                     NoOp
