@@ -18,11 +18,18 @@ port receivePost : (E.Value -> msg) -> Sub msg
 ---- MODEL ----
 
 
-type alias Post =
+type alias Reply =
     { message : String
     , timestamp : Int
+    }
+
+
+type alias Post =
+    { message : String
     , voteCount : Int
     , isStarred : Bool
+    , timestamp : Int
+    , replies : List Reply
     }
 
 
@@ -30,6 +37,7 @@ type alias Model =
     { posts : List Post
     , postInProgress : String
     , zone : Zone
+    , postsShowingReplies : List Post
     }
 
 
@@ -40,10 +48,19 @@ init =
               , timestamp = 0
               , voteCount = 0
               , isStarred = False
+              , replies =
+                    [ { message = "Well, hello back"
+                      , timestamp = 0
+                      }
+                    , { message = "Forkin' bench"
+                      , timestamp = 0
+                      }
+                    ]
               }
             ]
       , postInProgress = ""
       , zone = utc
+      , postsShowingReplies = []
       }
     , Cmd.batch [ replayPosts, Task.perform AdjustTimeZone Time.here ]
     )
@@ -61,6 +78,8 @@ type Msg
     | PostSubmitted (Result Http.Error String)
     | PostsReplayed (Result Http.Error (List Post))
     | AdjustTimeZone Time.Zone
+    | VoteForPost Post
+    | ToggleReplies Post
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -90,6 +109,21 @@ update msg model =
         AdjustTimeZone newZone ->
             ( { model | zone = newZone }, Cmd.none )
 
+        VoteForPost post ->
+            ( model, Cmd.none )
+
+        ToggleReplies post ->
+            ( { model
+                | postsShowingReplies =
+                    if List.member post model.postsShowingReplies then
+                        List.filter (\psr -> psr /= post) model.postsShowingReplies
+
+                    else
+                        post :: model.postsShowingReplies
+              }
+            , Cmd.none
+            )
+
         NoOp ->
             ( model, Cmd.none )
 
@@ -115,13 +149,26 @@ subscriptions model =
     receivePost decodePost
 
 
-postDecoder : D.Decoder Post
-postDecoder =
-    D.map4 Post
+repliesDecoder : D.Decoder (List Reply)
+repliesDecoder =
+    D.list replyDecoder
+
+
+replyDecoder : D.Decoder Reply
+replyDecoder =
+    D.map2 Reply
         (D.field "message" D.string)
         (D.field "_ts" D.int)
+
+
+postDecoder : D.Decoder Post
+postDecoder =
+    D.map5 Post
+        (D.field "message" D.string)
         (D.field "voteCount" D.int)
         (D.field "isStarred" D.bool)
+        (D.field "_ts" D.int)
+        (D.field "replies" repliesDecoder)
 
 
 decodePost : E.Value -> Msg
@@ -468,13 +515,13 @@ postContent model post =
         [ div [ class "question", attribute "hs_postid" "496270", attribute "hs_replycount" "0" ]
             [ div [ class "q-content pure-u-1 clearfix" ]
                 [ div [ class "q-vote clearfix" ]
-                    [ a [ class "vote-btn ", href "#", title "thought has 0 vote. click to vote for this." ]
+                    [ a [ class "vote-btn ", title "thought has 0 vote. click to vote for this.", onClick (VoteForPost post) ]
                         [ span [ attribute "aria-hidden" "true" ]
                             [ text <| String.fromInt post.voteCount ]
                         ]
                     , a [ class "feat-btn icon-btn icon-arrow-up3", href "#", attribute "style" "display:block;", title "Toggle Featured" ]
                         [ span [ class "screenreader-only" ]
-                            [ text "Toggle                                                Featured" ]
+                            [ text "Toggle Featured" ]
                         ]
                     ]
                 , div [ class "q-text" ]
@@ -491,7 +538,19 @@ postContent model post =
                         ]
                     ]
                 , div [ class "q-controls clearfix q-controls-admin" ]
-                    [ a [ class ("fav-post fav-btn icon-star icon-btn " ++ if post.isStarred then "is-fav" else ""), href "#", title "Toggle Favorite" ]
+                    [ a
+                        [ class
+                            ("fav-post fav-btn icon-star icon-btn "
+                                ++ (if post.isStarred then
+                                        "is-fav"
+
+                                    else
+                                        ""
+                                   )
+                            )
+                        , href "#"
+                        , title "Toggle Favorite"
+                        ]
                         [ span [ class "screenreader-only" ]
                             [ text "Toggle Favorite" ]
                         ]
@@ -500,14 +559,79 @@ postContent model post =
                             [ text "Hide" ]
                         ]
                     ]
-                , a [ class "reply-btn reply-btn-show ", href "#", title "open 0 replies" ]
+                , a
+                    [ class
+                        (if List.length post.replies > 0 then
+                            "reply-btn has-replies reply-btn-hide"
+
+                         else
+                            "reply-btn reply-btn-show "
+                        )
+                    , href "#"
+                    , title "open 0 replies"
+                    , onClick (ToggleReplies post)
+                    ]
                     [ span [ attribute "aria-hidden" "true", class "reply-num" ]
-                        [ text "Reply" ]
+                        [ text
+                            (if List.length post.replies > 0 then
+                                String.fromInt (List.length post.replies)
+
+                             else
+                                "Reply"
+                            )
+                        ]
                     ]
                 ]
             ]
-        , ul [ class "replies", attribute "style" "display:none;" ]
+        , ul
+            [ class "replies"
+            , attribute "style"
+                (if List.member post model.postsShowingReplies then
+                    "display:block;"
+
+                 else
+                    "display:none;"
+                )
+            ]
+            (List.append (List.map (\r -> repliesContent model r) post.replies)
+                [ replyForm ]
+            )
+        ]
+
+
+repliesContent : Model -> Reply -> Html Msg
+repliesContent model reply =
+    li [ attribute "hs_originalpostid" "496268", attribute "hs_postcreatedticks" "636392629979330000", attribute "hs_postid" "496271" ]
+        [ p []
+            [ span [ class "reply-desc" ]
+                [ text reply.message ]
+            , text " – "
+            , span [ class "reply-author" ]
+                [ text "Hotseat Tutorial " ]
+            , span [ class "reply-src" ]
+                [ text (formatDate reply.timestamp model.zone ++ " from Hotseat") ]
+            , a [ class "hide-reply icon-blocked", href "/", title "hide reply" ]
+                [ span [ class "screenreader-only" ]
+                    [ text "hide reply" ]
+                ]
+            ]
+        ]
+
+
+replyForm : Html Msg
+replyForm =
+    li [ class "reply-form", attribute "txtreply" "496268" ]
+        [ h6 [ class "charsleft" ]
+            [ text "300" ]
+        , textarea [ attribute "aria-label" "add comment to the thought here.", class "reply-box", attribute "cols" "60", attribute "hs_associd" "496268", id "txtReply_496268", name "txtReply_496268", attribute "onkeyup" "txtReplyCount(496268)", attribute "rows" "3" ]
             []
+        , input [ class "reply-submit", id "replyButton", name "replyButton", type_ "submit", value "Add Comment" ]
+            []
+        , label []
+            [ input [ class "anonbox", id "chkAnon_496268", name "chkAnon_496268", type_ "checkbox" ]
+                []
+            , text "Display as Anonymous"
+            ]
         ]
 
 
