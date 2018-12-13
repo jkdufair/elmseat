@@ -1,8 +1,8 @@
-import '../css/vendor/pure-min-0.4.2.css'
-import '../css/vendor/pure-grids-responsive-min-0.5.0.css'
-import '../css/normalize.css'
-import '../css/main.css'
 import '../css/hotseat-responsive.css'
+import '../css/main.css'
+import '../css/normalize.css'
+import '../css/vendor/pure-grids-responsive-min-0.5.0.css'
+import '../css/vendor/pure-min-0.4.2.css'
 import { Elm } from './Main.elm';
 import registerServiceWorker from './registerServiceWorker';
 import * as signalR from './signalr'
