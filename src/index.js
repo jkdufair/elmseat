@@ -37,13 +37,14 @@ connection.start()
 		console.error(error.message);
 	});
 
-connection.on('postChange', postChange)
+connection.on('actionCreated', actionCreated)
 
-function postChange(message) {
+function actionCreated(message) {
+	console.log(message)
 	app &&
 		app.ports &&
-		app.ports.receivePost &&
-		app.ports.receivePost.send(message);
+		app.ports.receiveAction &&
+		app.ports.receiveAction.send(message);
 }
 
 registerServiceWorker();

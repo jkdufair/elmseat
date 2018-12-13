@@ -14,8 +14,17 @@ import Time exposing (Month, Zone, millisToPosix, toDay, toHour, toMinute, toMon
 port receivePost : (E.Value -> msg) -> Sub msg
 
 
+port receiveAction : (E.Value -> msg) -> Sub msg
+
+
 
 ---- MODEL ----
+
+
+type alias Action =
+    { actionType : String
+    , timestamp : Int
+    }
 
 
 type alias Reply =
@@ -72,12 +81,11 @@ init =
 
 type Msg
     = NoOp
-    -- Local
+      -- Local
     | ChangePostInProgress String
     | RecieveTimeZone Time.Zone
     | ToggleReplies Post
-
-    -- Remote
+      -- Remote
     | ReceivePost Post
     | SubmitPost
     | ReceivePostSubmissionResponse (Result Http.Error String)
@@ -149,7 +157,43 @@ replayPosts =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    receivePost decodePost
+    receiveAction dispatchAction
+
+
+actionDecoder : D.Decoder Action
+actionDecoder =
+    D.map2 Action
+        (D.field "type" D.string)
+        (D.field "_ts" D.int)
+
+
+postCreatedDecoder : Int -> D.Decoder Post
+postCreatedDecoder timestamp =
+    D.map5 Post
+        (D.field "message" D.string)
+        (D.succeed 0) -- voteCount
+        (D.succeed False) -- isStarred
+        (D.succeed timestamp) -- timestamp
+        (D.succeed []) -- replies
+
+
+dispatchAction : E.Value -> Msg
+dispatchAction a =
+    let
+        result =
+            D.decodeValue actionDecoder a
+    in
+    case result of
+        Ok parsedAction ->
+            case parsedAction.actionType of
+                "PostCreated" ->
+                    decodePost a parsedAction.timestamp
+
+                _ ->
+                    NoOp
+
+        Err _ ->
+            NoOp
 
 
 repliesDecoder : D.Decoder (List Reply)
@@ -174,15 +218,15 @@ postDecoder =
         (D.field "replies" repliesDecoder)
 
 
-decodePost : E.Value -> Msg
-decodePost p =
+decodePost : E.Value -> Int -> Msg
+decodePost a timestamp =
     let
         result =
-            D.decodeValue postDecoder p
+            D.decodeValue (D.at [ "data" ] (postCreatedDecoder timestamp)) a
     in
     case result of
-        Ok parsedPost ->
-            ReceivePost parsedPost
+        Ok decodedPost ->
+            ReceivePost decodedPost
 
         Err foo ->
             NoOp
