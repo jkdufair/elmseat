@@ -114,7 +114,7 @@ update msg model =
             ( { model | posts = List.append posts model.posts }, Cmd.none )
 
         ReceivePostsReplayedResponse (Err _) ->
-            ( {model | posts = []}, Cmd.none )
+            ( model, Cmd.none )
 
         RecieveTimeZone newZone ->
             ( { model | zone = newZone }, Cmd.none )
@@ -446,7 +446,7 @@ mainContent model =
                                         []
                                     , div [ id "preview" ]
                                         [ a [ href "#" ]
-                                            [ img [ alt "Delete", class "creator-delete", src "/images/delete.png" ]
+                                            [ img [ alt "Delete", class "creator-delete", src "images/delete.png" ]
                                                 []
                                             , text "                                        "
                                             ]

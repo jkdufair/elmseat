@@ -1,0 +1,28 @@
+{
+  "bindings": [
+    {
+      "authLevel": "anonymous",
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "methods": [
+        "post",
+        "options"
+      ]
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    },
+    {
+      "name": "newEvent",
+      "type": "cosmosDB",
+      "databaseName": "elmseat",
+      "collectionName": "Events",
+      "createIfNotExists": true,
+      "connectionStringSetting": "CosmosConnectionString",
+      "direction": "out"
+    }
+  ]
+}

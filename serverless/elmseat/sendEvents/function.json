@@ -1,0 +1,20 @@
+{
+  "bindings": [
+    {
+      "type": "cosmosDBTrigger",
+      "name": "documents",
+      "direction": "in",
+      "leaseCollectionName": "leases",
+      "connectionStringSetting": "CosmosConnectionString",
+      "databaseName": "elmseat",
+      "collectionName": "Events",
+      "createLeaseCollectionIfNotExists": true
+    },
+    {
+      "type": "signalR",
+      "name": "signalREvents",
+      "hubName": "events",
+      "direction": "out"
+    }
+  ]
+}
